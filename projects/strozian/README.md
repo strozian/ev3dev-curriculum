@@ -1,1 +1,1 @@
-This folder contains Austin Strozier's project modules
+This folder contains Austin Strozier's project modules.
