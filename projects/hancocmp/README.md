@@ -1,1 +1,1 @@
-This folder contains Mason Hancock's project modules/
+This folder contains Mason Hancock's project modules
