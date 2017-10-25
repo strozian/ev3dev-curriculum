@@ -68,11 +68,12 @@ def main():
         distance_sp = int(input("Distance to travel: "))
         if distance_sp == 0:
             break
-        time_s = distance_sp/(.0118*speed_of_robot)
-        left_motor.run_forever(speed_sp=speed_of_robot)
-        right_motor.run_forever(speed_sp=speed_of_robot)
-        time.sleep(time_s)
-        left_motor.stop()
+        # time_s = distance_sp/(.0118*speed_of_robot)
+        distance_degrees = distance_sp*360/4
+        left_motor.run_to_rel_pos(speed_sp=speed_of_robot, position_sp= distance_degrees)
+        right_motor.run_to_rel_pos(speed_sp=speed_of_robot, position_sp=distance_degrees)
+        right_motor.wait_while(ev3.Motor.STATE_RUNNING)
+        left_motor.stop(stop_action='brake')
         right_motor.stop(stop_action="brake")
         ev3.Sound.beep().wait()
 
