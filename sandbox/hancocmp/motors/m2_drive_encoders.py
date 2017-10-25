@@ -71,11 +71,13 @@ def main():
         dist_s = int(input("Enter a distance to travel (in): "))
         if dist_s == 0:
             break
-        time_s = motor_sp / (0.0118 * dist_s)
-        left_motor.run_forever(speed_sp=motor_sp)
-        right_motor.run_forever(speed_sp=motor_sp)
-        time.sleep(time_s)
-        left_motor.stop()
+        # time_s = motor_sp / (0.0118 * dist_s)
+        deg = dist_s * 360 / 4
+        left_motor.run_to_rel_pos(speed_sp = motor_sp, position_sp=deg)
+        right_motor.run_forever(speed_sp = motor_sp, position_sp=deg)
+        # time.sleep(time_s)
+        left_motor.wait_while(ev3.Motor.STATE_RUNNING)
+        left_motor.stop(stop_action="brake")
         right_motor.stop(stop_action="brake")
         ev3.Sound.beep().wait()
 
