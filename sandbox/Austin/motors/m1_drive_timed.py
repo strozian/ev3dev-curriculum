@@ -112,13 +112,12 @@ def main():
         speed_of_robot = int(input("Enter a speed  (0 to 900 dps): "))
         if speed_of_robot == 0:
             break
-        speed_inches = .0118*speed_of_robot
         distance_sp = int(input ("Distance to travel: "))
         if distance_sp == 0:
             break
         time_s = distance_sp/(.0118*speed_of_robot)
-        left_motor.run_forever(speed_sp=speed_inches, )
-        right_motor.run_forever(speed_sp=speed_inches,)
+        left_motor.run_forever(speed_sp=speed_of_robot)
+        right_motor.run_forever(speed_sp=speed_of_robot)
         time.sleep(time_s)
         left_motor.stop()
         right_motor.stop(stop_action="brake")
