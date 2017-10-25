@@ -44,7 +44,6 @@ Authors: David Fisher and Austin Strozier.
 #
 # Observations you should make, run_to_rel_pos is easier to use since it uses encoders that are independent of speed.
 import ev3dev.ev3 as ev3
-import time
 
 
 def main():
@@ -70,7 +69,7 @@ def main():
             break
         # time_s = distance_sp/(.0118*speed_of_robot)
         distance_degrees = distance_sp*360/4
-        left_motor.run_to_rel_pos(speed_sp=speed_of_robot, position_sp= distance_degrees)
+        left_motor.run_to_rel_pos(speed_sp=speed_of_robot, position_sp=distance_degrees)
         right_motor.run_to_rel_pos(speed_sp=speed_of_robot, position_sp=distance_degrees)
         right_motor.wait_while(ev3.Motor.STATE_RUNNING)
         left_motor.stop(stop_action='brake')
