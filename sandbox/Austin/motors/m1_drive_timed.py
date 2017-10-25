@@ -108,11 +108,10 @@ def main():
     assert right_motor.connected
 
     while True:
-
         speed_of_robot = int(input("Enter a speed  (0 to 900 dps): "))
         if speed_of_robot == 0:
             break
-        distance_sp = int(input ("Distance to travel: "))
+        distance_sp = int(input("Distance to travel: "))
         if distance_sp == 0:
             break
         time_s = distance_sp/(.0118*speed_of_robot)
@@ -124,4 +123,6 @@ def main():
 
     print("Goodbye!")
     ev3.Sound.speak("Goodbye").wait()
+
+
 main()
