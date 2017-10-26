@@ -20,4 +20,35 @@ class Snatch3r(object):
     """Commands for the Snatch3r robot that might be useful in many different programs."""
     
     # TODO: Implement the Snatch3r class as needed when working the sandox exercises
-    # (and delete these comments)
+
+    def drive_inches(self,inches_target, speed_deg_per_second):
+            print("--------------------------------------------")
+            print("  Timed Driving")
+            print("--------------------------------------------")
+            ev3.Sound.speak("Timed  Driving").wait()
+
+            # Connect two large motors on output ports B and C
+            left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
+            right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
+
+            # Check that the motors are actually connected blahsa
+            assert left_motor.connected
+            assert right_motor.connected
+
+            while True:
+                if speed_deg_per_second == 0:
+                    break
+
+                if inches_target == 0:
+                    break
+                # time_s = distance_sp/(.0118*speed_of_robot)
+                distance_degrees = inches_target * 360 / 4
+                left_motor.run_to_rel_pos(speed_sp=speed_deg_per_second, position_sp=distance_degrees)
+                right_motor.run_to_rel_pos(speed_sp=speed_deg_per_second, position_sp=distance_degrees)
+                right_motor.wait_while(ev3.Motor.STATE_RUNNING)
+                left_motor.stop(stop_action='brake')
+                right_motor.stop(stop_action="brake")
+                ev3.Sound.beep().wait()
+
+            print("Goodbye!")
+            ev3.Sound.speak("Goodbye").wait()
