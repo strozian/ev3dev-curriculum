@@ -32,21 +32,13 @@ class Snatch3r(object):
             # Check that the motors are actually connected blahsa
             assert left_motor.connected
             assert right_motor.connected
-
-            while True:
-                if speed_deg_per_second == 0:
-                    break
-
-                if inches_target == 0:
-                    break
-                # time_s = distance_sp/(.0118*speed_of_robot)
-                distance_degrees = inches_target * 360 / 4
-                left_motor.run_to_rel_pos(speed_sp=speed_deg_per_second, position_sp=distance_degrees)
-                right_motor.run_to_rel_pos(speed_sp=speed_deg_per_second, position_sp=distance_degrees)
-                right_motor.wait_while(ev3.Motor.STATE_RUNNING)
-                left_motor.stop(stop_action='brake')
-                right_motor.stop(stop_action="brake")
-                ev3.Sound.beep().wait()
+            distance_degrees = inches_target * 360 / 4
+            left_motor.run_to_rel_pos(speed_sp=speed_deg_per_second, position_sp=distance_degrees)
+            right_motor.run_to_rel_pos(speed_sp=speed_deg_per_second, position_sp=distance_degrees)
+            right_motor.wait_while(ev3.Motor.STATE_RUNNING)
+            left_motor.stop(stop_action='brake')
+            right_motor.stop(stop_action="brake")
+            ev3.Sound.beep().wait()
 
             print("Goodbye!")
             ev3.Sound.speak("Goodbye").wait()
