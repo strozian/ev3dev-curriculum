@@ -34,7 +34,7 @@ class Snatch3r(object):
             right_motor.wait_while(ev3.Motor.STATE_RUNNING)
             left_motor.stop(stop_action='brake')
             right_motor.stop(stop_action="brake")
-            ev3.Sound.beep().wait()
+           
 
             # print("Goodbye!")
             # ev3.Sound.speak("Goodbye").wait()
