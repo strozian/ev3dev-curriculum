@@ -18,10 +18,8 @@ import time
 
 class Snatch3r(object):
     """Commands for the Snatch3r robot that might be useful in many different programs."""
-    
-    # TODO: Implement the Snatch3r class as needed when working the sandox exercises
 
-    def drive_inches(self,inches_target, speed_deg_per_second):
+    def drive_inches(self, inches_target, speed_deg_per_second):
             print("--------------------------------------------")
             print("  Timed Driving")
             print("--------------------------------------------")
