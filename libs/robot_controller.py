@@ -12,20 +12,16 @@
 """
 
 import ev3dev.ev3 as ev3
-import math
-import time
+# import math
+# import time
 
 
 class Snatch3r(object):
     """Commands for the Snatch3r robot that might be useful in many different programs."""
 
     def drive_inches(self, inches_target, speed_deg_per_second):
-
-            # Connect two large motors on output ports B and C
             left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
             right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
-
-            # Check that the motors are actually connected blahsa
             assert left_motor.connected
             assert right_motor.connected
             distance_degrees = inches_target * 360 / 4
@@ -34,7 +30,4 @@ class Snatch3r(object):
             right_motor.wait_while(ev3.Motor.STATE_RUNNING)
             left_motor.stop(stop_action='brake')
             right_motor.stop(stop_action="brake")
-           
-
-            # print("Goodbye!")
-            # ev3.Sound.speak("Goodbye").wait()
+        def turn_degrees(self, degrees_to_turn, turn_speed_sp):
