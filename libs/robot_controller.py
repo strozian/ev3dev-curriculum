@@ -20,10 +20,6 @@ class Snatch3r(object):
     """Commands for the Snatch3r robot that might be useful in many different programs."""
 
     def drive_inches(self, inches_target, speed_deg_per_second):
-            print("--------------------------------------------")
-            print("  Timed Driving")
-            print("--------------------------------------------")
-            ev3.Sound.speak("Timed  Driving").wait()
 
             # Connect two large motors on output ports B and C
             left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
@@ -40,5 +36,5 @@ class Snatch3r(object):
             right_motor.stop(stop_action="brake")
             ev3.Sound.beep().wait()
 
-            print("Goodbye!")
-            ev3.Sound.speak("Goodbye").wait()
+            # print("Goodbye!")
+            # ev3.Sound.speak("Goodbye").wait()
