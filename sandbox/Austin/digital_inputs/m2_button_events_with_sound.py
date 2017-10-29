@@ -56,8 +56,6 @@ def main():
     btn.on_left = handle_left_button
     btn.on_right = handle_right_button
 
-
-
     # TODO: 5. Note #4 is lower (this is TO DO #5 which you should do after #4).
     # Add a lambda callback for on_backspace.  The syntax of lambda is:
     #   btn.on_backspace = lamdba predefined_inputs: function_name(parameters)
