@@ -106,21 +106,29 @@ def main():
         if btn.up:
             print('up')
             ev3.Leds.all_off()
+            while btn.up:
+                time.sleep(.01)
         if btn.left:
             print('left')
             ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
             ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
+            while btn.left:
+                time.sleep(.01)
         if btn.right:
             print('right')
             ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
             ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
-            if btn.backspace:
-                break
-            time.sleep(0.01)
+            while btn.right:
+                time.sleep(.01)
+        if btn.backspace:
+            break
+        time.sleep(0.01)
         if btn.down:
-            ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.led_colors[1])
-            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.led_colors[1])
-
+            ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.led_colors[current_color_index])
+            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.led_colors[current_color_index])
+            current_color_index
+            while btn.down:
+                time.sleep(.01)
 
 
     # Best practice to leave the LEDs on after you finish a program so you don't put away the robot while still on.
