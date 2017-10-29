@@ -17,9 +17,9 @@ import time
 
 
 def main():
-    # print("--------------------------------------------")
-    # print(" Buttons and LEDs")
-    # print("--------------------------------------------")
+    print("--------------------------------------------")
+    print(" Buttons and LEDs")
+    print("--------------------------------------------")
     # ev3.Sound.speak("Buttons and L E Dees").wait()
 
     # Opening LED dance (to show the LED syntax)
@@ -44,12 +44,12 @@ def main():
     #
     # # Buttons on EV3 (the real focus of this module)
     # btn = ev3.Button()  # Construct the one and only EV3 Button object
-    # led_colors = [ev3.Leds.BLACK,  # This list is useful for the down button in TO DO 4.
-    #               ev3.Leds.GREEN,
-    #               ev3.Leds.RED,
-    #               # ev3.Leds.ORANGE,  # Too close to another color in my opinion
-    #               # ev3.Leds.YELLOW,  # Too close to another color in my opinion
-    #               ev3.Leds.AMBER]
+    led_colors = [ev3.Leds.BLACK,  # This list is useful for the down button in TO DO 4.
+                  ev3.Leds.GREEN,
+                  ev3.Leds.RED,
+                  # ev3.Leds.ORANGE,  # Too close to another color in my opinion
+                  # ev3.Leds.YELLOW,  # Too close to another color in my opinion
+                  ev3.Leds.AMBER]
 
     current_color_index = 0
 
@@ -114,6 +114,14 @@ def main():
             print('right')
             ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
             ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
+            if btn.backspace:
+                break
+            time.sleep(0.01)
+        if btn.down:
+            ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.led_colors[1])
+            ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.led_colors[1])
+
+
 
     # Best practice to leave the LEDs on after you finish a program so you don't put away the robot while still on.
     # ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
