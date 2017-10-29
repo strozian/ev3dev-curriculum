@@ -37,8 +37,7 @@ def main():
             arm_up(arm_motor, touch_sensor)
         elif command_to_run == 'd':
             print("Move the arm to the down position")
-            print("TODO: 5 is to delete this print statement, uncomment the line below, and implement that function.")
-            # arm_down(arm_motor)
+            arm_down(arm_motor)
         elif command_to_run == 'q':
             break
         else:
