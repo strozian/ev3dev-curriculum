@@ -17,10 +17,10 @@ import time
 
 
 def main():
-    print("--------------------------------------------")
-    print(" Buttons and LEDs")
-    print("--------------------------------------------")
-    ev3.Sound.speak("Buttons and L E Dees").wait()
+    # print("--------------------------------------------")
+    # print(" Buttons and LEDs")
+    # print("--------------------------------------------")
+    # ev3.Sound.speak("Buttons and L E Dees").wait()
 
     # Opening LED dance (to show the LED syntax)
     # # Red LEDs
@@ -106,26 +106,19 @@ def main():
         if btn.up:
             print('up')
             ev3.Leds.all_off()
-        else:
-            break
         if btn.left:
             print('left')
             ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
             ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
-        else:
-            break
-
         if btn.right:
             print('right')
             ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
             ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
-        else:
-            break
 
     # Best practice to leave the LEDs on after you finish a program so you don't put away the robot while still on.
-    ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
-    ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
-    ev3.Sound.speak("Goodbye").wait()
+    # ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
+    # ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
+    # ev3.Sound.speak("Goodbye").wait()
 
 
 # ----------------------------------------------------------------------
