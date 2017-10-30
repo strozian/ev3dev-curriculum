@@ -20,16 +20,16 @@ class Snatch3r(object):
     """Commands for the Snatch3r robot that might be useful in many different programs."""
 
     def drive_inches(self, inches_target, speed_deg_per_second):
-            left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
-            right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
-            assert left_motor.connected
-            assert right_motor.connected
-            distance_degrees = inches_target * 360 / 4
-            left_motor.run_to_rel_pos(speed_sp=speed_deg_per_second, position_sp=distance_degrees)
-            right_motor.run_to_rel_pos(speed_sp=speed_deg_per_second, position_sp=distance_degrees)
-            right_motor.wait_while(ev3.Motor.STATE_RUNNING)
-            left_motor.stop(stop_action='brake')
-            right_motor.stop(stop_action="brake")
+        left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
+        right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
+        assert left_motor.connected
+        assert right_motor.connected
+        distance_degrees = inches_target * 360 / 4
+        left_motor.run_to_rel_pos(speed_sp=speed_deg_per_second, position_sp=distance_degrees)
+        right_motor.run_to_rel_pos(speed_sp=speed_deg_per_second, position_sp=distance_degrees)
+        right_motor.wait_while(ev3.Motor.STATE_RUNNING)
+        left_motor.stop(stop_action='brake')
+        right_motor.stop(stop_action="brake")
 
     def turn_degrees(self, degrees_to_turn, turn_speed_sp):
         left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
@@ -78,3 +78,12 @@ class Snatch3r(object):
         arm_motor.run_to_abs_pos(position_sp=0, speed_sp=900)
         arm_motor.wait_while(ev3.Motor.STATE_RUNNING)  # Blocks until the motor finishes running
         ev3.Sound.beep().wait()
+
+    def shutdown(self):
+        left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
+        right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
+        left_motor.stop(stop_action='brake')
+        right_motor.stop(stop_action="brake")
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
+        ev3.Sound.speak('Goodbye').wait()
