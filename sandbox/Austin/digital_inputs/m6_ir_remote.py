@@ -25,8 +25,8 @@
     -- Pressing the Back button will allow your program to end.  It should stop motors, turn on both green LEDs, and
        then print and say Goodbye.  You will need to implement a new robot method called shutdown to handle this task.
 
-Authors: David Fisher and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+Authors: David Fisher and Austin Strozier.
+"""  # Done: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import ev3dev.ev3 as ev3
 import time
@@ -57,21 +57,34 @@ def main():
     ev3.Leds.all_off()  # Turn the leds off
     robot = robo.Snatch3r()
     dc = DataContainer()
+    rc1 = ev3.RemoteControl(channel=1)
+    rc2 = ev3.RemoteControl(channel=2)
 
     # TODO: 4. Add the necessary IR handler callbacks as per the instructions above.
     # Remote control channel 1 is for driving the crawler tracks around (none of these functions exist yet below).
     # Remote control channel 2 is for moving the arm up and down (all of these functions already exist below).
+    rc1.on_red_up = left_led_left_motor
+    rc1.on_red_down = left_led_negative_left_motor
+    rc1.on_blue_up = right_led_right_motor
+    rc1.on_blue_down = right_led_negative_right_motor
+    rc2.on_red_up = lambda state: handle_arm_up_button(state,robot)
+    rc2.on_red_down = lambda state: handle_arm_down_button(state,robot)
+    rc2.on_blue_up = lambda state:handle_calibrate_button(state,robot)
+
+
 
     # For our standard shutdown button.
     btn = ev3.Button()
     btn.on_backspace = lambda state: handle_shutdown(state, dc)
 
-    robot.arm_calibration()  # Start with an arm calibration in this program.
+    # robot.arm_calibration()  # Start with an arm calibration in this program.
 
     while dc.running:
         # TODO: 5. Process the RemoteControl objects.
         btn.process()
         time.sleep(0.01)
+        rc1.process()
+        rc2.process()
 
     # TODO: 2. Have everyone talk about this problem together then pick one  member to modify libs/robot_controller.py
     # as necessary to implement the method below as per the instructions in the opening doc string. Once the code has
@@ -90,6 +103,45 @@ def main():
 # TODO: 7. When your program is complete, call over a TA or instructor to sign your checkoff sheet and do a code review.
 #
 # Observations you should make, IR buttons are a fun way to control the robot.
+def left_led_left_motor(state):
+    if state:
+        left_motor.run_forever(speed_sp=600)
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
+        time.sleep(0.01)
+    else:
+        left_motor.stop(stop_action='brake')
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
+
+
+def left_led_negative_left_motor(state):
+    if state:
+        left_motor.run_forever(speed_sp=-600)
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.RED)
+        time.sleep(0.01)
+    else:
+        left_motor.stop(stop_action='brake')
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.BLACK)
+
+
+def right_led_right_motor(state):
+    if state:
+        right_motor.run_forever(speed_sp=600)
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
+        time.sleep(0.01)
+    else:
+        right_motor.stop(stop_action='brake')
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
+
+def right_led_negative_right_motor(state):
+    if state:
+        right_motor.run_forever(speed_sp=-600)
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.RED)
+        time.sleep(0.01)
+    else:
+        right_motor.stop(stop_action='brake')
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.BLACK)
+
+
 
 
 def handle_arm_up_button(button_state, robot):
