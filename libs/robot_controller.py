@@ -90,4 +90,3 @@ class Snatch3r(object):
         while self.running:
             time.sleep(.01)
 
-    
