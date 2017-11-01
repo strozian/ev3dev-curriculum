@@ -36,6 +36,7 @@ def main():
     # a MyDelegate class.  Simply construct the MqttClient with no parameter in the constructor (easy).
     mqtt_client = com.MqttClient()
     mqtt_client.connect_to_ev3()
+
     root = tkinter.Tk()
     root.title("MQTT Remote")
 
