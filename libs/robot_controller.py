@@ -62,9 +62,8 @@ class Snatch3r(object):
         self.arm_motor.position = 0  # Calibrate the down position as 0 (this line is correct as is).
 
     def arm_up(self):
-        assert self.arm_motor.connected
-
-        assert self.touch_sensor
+        #assert self.arm_motor.connected
+        #assert self.touch_sensor
         self.arm_motor.run_forever(speed_sp=900)
         while not self.touch_sensor.is_pressed:
             time.sleep(0.01)
