@@ -79,11 +79,11 @@ class Snatch3r(object):
         self.right_motor.run_forever(speed_sp=-right_speed_entry)
         self.left_motor.run_forever(speed_sp=-left_speed_entry)
 
-    def drive_right(self, right_speed_entry, left_speed_entry):
+    def drive_left(self, right_speed_entry, left_speed_entry):
         self.right_motor.run_forever(speed_sp=right_speed_entry)
         self.left_motor.run_forever(speed_sp=-left_speed_entry)
 
-    def drive_left(self, right_speed_entry, left_speed_entry):
+    def drive_right(self, right_speed_entry, left_speed_entry):
         self.right_motor.run_forever(speed_sp=-right_speed_entry)
         self.left_motor.run_forever(speed_sp=left_speed_entry)
 

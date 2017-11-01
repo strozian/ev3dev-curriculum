@@ -129,8 +129,8 @@ def drive_forward(mqtt_client, right_speed, left_speed):
 
 
 def drive_backward(mqtt_client, right_speed, left_speed):
-    print('drive_back')
-    mqtt_client.send_message('drive_back', [right_speed, left_speed])
+    print('drive_backward')
+    mqtt_client.send_message('drive_backward', [right_speed, left_speed])
 
 
 def drive_left(mqtt_client, right_speed, left_speed):
