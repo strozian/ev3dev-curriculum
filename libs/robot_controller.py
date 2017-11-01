@@ -92,13 +92,13 @@ class Snatch3r(object):
         self.right_motor.stop(stop_action='brake')
 
     def shutdown(self):
-        self.running = False
         self.left_motor.stop(stop_action='brake')
         self.right_motor.stop(stop_action="brake")
         ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
         ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
         ev3.Sound.speak('Goodbye').wait()
-
+        self.running = False
+        
     def loop_forever(self):
         while self.running:
             time.sleep(.01)
