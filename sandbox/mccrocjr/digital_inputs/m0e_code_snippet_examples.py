@@ -6,7 +6,7 @@ These are just snippets used in the lecture, not actual code to run!
 TODO: 1. PASSIVELY LISTEN TO THE LECTURE ABOUT DIGITAL INPUTS (and a few other things)
 https://docs.google.com/presentation/d/1mUxsC-cUO4S5bwhTAQG0G10IO0gsbAU5YEORxeh0mMc/edit?usp=sharing
 
-Author: David Fisher
+Author: David Fisjkld;ajf;lkadjfher
 """
 
 import ev3dev.ev3 as ev3
