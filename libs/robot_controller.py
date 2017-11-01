@@ -23,13 +23,17 @@ class Snatch3r(object):
         self.right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
         self.arm_motor = ev3.MediumMotor(ev3.OUTPUT_A)
         self.touch_sensor = ev3.TouchSensor()
+
+        assert self.left_motor.connected
+        assert self.right_motor.connected
+        assert self.arm_motor.connected
+        assert self.touch_sensor
+
         self.running = True
 
     def drive_inches(self, inches_target, speed_deg_per_second):
         # left_motor = ev3.LargeMotor(ev3.OUTPUT_B)
         # right_motor = ev3.LargeMotor(ev3.OUTPUT_C)
-        assert self.left_motor.connected
-        assert self.right_motor.connected
         distance_degrees = inches_target * 360 / 4
         self.left_motor.run_to_rel_pos(speed_sp=speed_deg_per_second, position_sp=distance_degrees)
         self.right_motor.run_to_rel_pos(speed_sp=speed_deg_per_second, position_sp=distance_degrees)
@@ -38,8 +42,6 @@ class Snatch3r(object):
         self.right_motor.stop(stop_action="brake")
 
     def turn_degrees(self, degrees_to_turn, turn_speed_sp):
-        assert self.left_motor.connected
-        assert self.right_motor.connected
         distance = degrees_to_turn*5
         self.left_motor.run_to_rel_pos(speed_sp=turn_speed_sp, position_sp=-distance)
         self.right_motor.run_to_rel_pos(speed_sp=turn_speed_sp, position_sp=distance)
@@ -48,9 +50,6 @@ class Snatch3r(object):
         self.right_motor.stop(stop_action="brake")
 
     def arm_calibration(self):
-        assert self.arm_motor.connected
-
-        assert self.touch_sensor
         self.arm_motor.run_forever(speed_sp=900)
         while not self.touch_sensor.is_pressed:
             time.sleep(0.01)
@@ -80,6 +79,7 @@ class Snatch3r(object):
         ev3.Sound.beep().wait()
 
     def shutdown(self):
+        self.running = False
         self.left_motor.stop(stop_action='brake')
         self.right_motor.stop(stop_action="brake")
         ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
@@ -89,3 +89,5 @@ class Snatch3r(object):
     def loop_forever(self):
         while self.running:
             time.sleep(.01)
+
+    
