@@ -127,6 +127,7 @@ class Snatch3r(object):
                     if current_distance > 0:
                         self.drive_forward(forward_speed, forward_speed)
                     if current_distance == 0:
+                        self.stop()
                         return True
                         # You add more!
                 if current_heading < 0:
