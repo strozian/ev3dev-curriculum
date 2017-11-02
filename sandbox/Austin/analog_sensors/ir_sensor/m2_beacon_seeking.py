@@ -9,8 +9,8 @@ function gets the robot to that location it will stop the robot and return.  Wit
 prompted if they want to find the beacon again (presumably you move it first) or quit.
 
 
-Authors: David Fisher and PUT_YOUR_NAME_HERE.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+Authors: David Fisher and Austin Strozier.
+"""  # Done: 1. PUT YOUR NAME IN THE ABOVE LINE.
 import traceback
 
 import ev3dev.ev3 as ev3
@@ -34,6 +34,7 @@ def main():
             # TODO: 5. Save the result of the seek_beacon function (a bool), then use that value to only say "Found the
             # beacon" if the return value is True.  (i.e. don't say "Found the beacon" if the attempts was cancelled.)
             ev3.Sound.speak("Found the beacon")
+            robot.stop()
 
             command = input("Hit enter to seek the beacon again or enter q to quit: ")
             if command == "q":
@@ -57,16 +58,16 @@ def seek_beacon(robot):
     """
 
     # TODO: 2. Create a BeaconSeeker object on channel 1.
-
-    forward_speed = 300
+    beacon_seeker = ev3.BeaconSeeker(channel=1)
+    forward_speed = 600
     turn_speed = 100
 
     while not robot.touch_sensor.is_pressed:
         # The touch sensor can be used to abort the attempt (sometimes handy during testing)
 
         # TODO: 3. Use the beacon_seeker object to get the current heading and distance.
-        current_heading = 0  # use the beacon_seeker heading
-        current_distance = 0  # use the beacon_seeker distance
+        current_heading = beacon_seeker.heading  # use the beacon_seeker heading
+        current_distance = beacon_seeker.distance  # use the beacon_seeker distance
         if current_distance == -128:
             # If the IR Remote is not found just sit idle for this program until it is moved.
             print("IR Remote not found. Distance is -128")
@@ -92,7 +93,22 @@ def seek_beacon(robot):
             if math.fabs(current_heading) < 2:
                 # Close enough of a heading to move forward
                 print("On the right heading. Distance: ", current_distance)
+                if current_distance > 0:
+                    robot.drive_forward(forward_speed,forward_speed)
+                if current_distance == 0:
+                    return True
                 # You add more!
+            if current_heading < 0:
+                print('Go left')
+                robot.drive_left(turn_speed,turn_speed)
+            if current_heading > 0:
+                print('Go right')
+                robot.drive_right(turn_speed, turn_speed)
+            if math.fabs(current_heading) > 10:
+                robot.stop()
+                print('Heading too far off')
+
+
 
 
 

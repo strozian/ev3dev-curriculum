@@ -12,7 +12,7 @@
 """
 
 import ev3dev.ev3 as ev3
-# import math
+import math
 import time
 
 
@@ -107,3 +107,34 @@ class Snatch3r(object):
         while self.running:
             time.sleep(.01)
 
+    def seak_beacon(self):
+        beacon_seeker = ev3.BeaconSeeker(channel=1)
+        forward_speed = 600
+        turn_speed = 100
+
+        while not self.touch_sensor.is_pressed:
+            current_heading = beacon_seeker.heading  # use the beacon_seeker heading
+            current_distance = beacon_seeker.distance  # use the beacon_seeker distance
+            if current_distance == -128:
+                # If the IR Remote is not found just sit idle for this program until it is moved.
+                print("IR Remote not found. Distance is -128")
+                self.stop()
+            else:
+
+                if math.fabs(current_heading) < 2:
+                    # Close enough of a heading to move forward
+                    print("On the right heading. Distance: ", current_distance)
+                    if current_distance > 0:
+                        self.drive_forward(forward_speed, forward_speed)
+                    if current_distance == 0:
+                        return True
+                        # You add more!
+                if current_heading < 0:
+                    print('Go left')
+                    self.drive_left(turn_speed, turn_speed)
+                if current_heading > 0:
+                    print('Go right')
+                    self.drive_right(turn_speed, turn_speed)
+                if math.fabs(current_heading) > 10:
+                    self.stop()
+                    print('Heading too far off')
