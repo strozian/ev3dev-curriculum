@@ -31,6 +31,7 @@ class Snatch3r(object):
         assert self.arm_motor.connected
         assert self.touch_sensor
         assert self.color_sensor
+        assert self.ir_sensor
 
         self.running = True
 
