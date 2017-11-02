@@ -107,7 +107,7 @@ class Snatch3r(object):
         while self.running:
             time.sleep(.01)
 
-    def seak_beacon(self):
+    def seek_beacon(self):
         beacon_seeker = ev3.BeaconSeeker(channel=1)
         forward_speed = 600
         turn_speed = 100
