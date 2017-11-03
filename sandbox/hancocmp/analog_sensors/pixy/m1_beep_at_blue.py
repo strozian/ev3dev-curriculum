@@ -35,10 +35,10 @@ def main():
         #   self.pixy = ev3.Sensor(driver_name="pixy-lego")
         #   assert self.pixy
         # Then here you can use a command like width = robot.pixy.value(3)
-
-
-
-        time.sleep(0.1)
+        width = robot.pixy.value(3)
+        if width > 200:
+            ev3.Sound.beep().wait()
+        time.sleep(1)
 
     print("Goodbye!")
     ev3.Sound.speak("Goodbye").wait()
