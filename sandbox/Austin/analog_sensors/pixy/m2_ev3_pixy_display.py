@@ -4,7 +4,7 @@ The goal of this module is to practice using the Pixy and MQTT at the same time.
 EV3 to the PC.
 
 Authors: David Fisher and PUT_YOUR_NAME_HERE.  February 2017.
-"""  # TODO: 1. PUT YOUR NAME IN THE ABOVE LINE.
+"""  # Done: 1. PUT YOUR NAME IN THE ABOVE LINE.
 
 import ev3dev.ev3 as ev3
 import time
@@ -23,7 +23,8 @@ def main():
 
     # TODO: 2. Create an MqttClient (no delegate needed since EV3 will only send data, so an empty constructor is fine)
     # Then connect to the pc using the connect_to_pc method.
-
+    mqtt_client = com.MqttClient()
+    mqtt_client.connect_to_pc()
     robot = robo.Snatch3r()
     robot.pixy.mode = "SIG1"
 
