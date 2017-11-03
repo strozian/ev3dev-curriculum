@@ -20,7 +20,8 @@ import robot_controller as robo
 
 
 def main():
-    print("--------------------------------------------")
+    print("-"
+          "-------------------------------------------")
     print(" Beep at blue")
     print("--------------------------------------------")
     ev3.Sound.speak("Beep at blue").wait()
