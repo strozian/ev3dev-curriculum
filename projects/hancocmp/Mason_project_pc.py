@@ -137,15 +137,15 @@ def red(button):
 
 class PacMan(object):
     def __init__(self):
-        image_R = Image.open("PacMan_R.gif")
-        image_L = Image.open("PacMan_L.gif")
-        image_U = Image.open("PacMan_U.gif")
-        image_D = Image.open("PacMan_D.gif")
+        image_r = Image.open("PacMan_R.gif")
+        image_l = Image.open("PacMan_L.gif")
+        image_u = Image.open("PacMan_U.gif")
+        image_d = Image.open("PacMan_D.gif")
 
-        self.R = ImageTk.PhotoImage(image_R)
-        self.L = ImageTk.PhotoImage(image_L)
-        self.U = ImageTk.PhotoImage(image_U)
-        self.D = ImageTk.PhotoImage(image_D)
+        self.R = ImageTk.PhotoImage(image_r)
+        self.L = ImageTk.PhotoImage(image_l)
+        self.U = ImageTk.PhotoImage(image_u)
+        self.D = ImageTk.PhotoImage(image_d)
         self.direction = 'up'
         self.sprite = ''
         self.x = 320
