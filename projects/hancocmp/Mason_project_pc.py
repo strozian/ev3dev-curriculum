@@ -8,7 +8,7 @@ import tkinter
 from tkinter import ttk
 from tkinter import *
 import time
-
+import robot_controller as robo
 import mqtt_remote_method_calls as com
 from PIL import Image, ImageTk
 
@@ -34,7 +34,7 @@ def main():
 
     y_button = ttk.Checkbutton(main_frame, text='Yellow')
     y_button.grid(column=0, row=1)
-    y_button['command'] = lambda: yellow(y_button)
+    y_button['command'] = lambda: yellow(y_button,pac)
 
     button = ttk.Checkbutton(main_frame, text='Red')
     button.grid(column=1, row=1)
@@ -44,10 +44,12 @@ def main():
 # Robot drive commands:
     root.bind('<Up>', lambda event: drive_forward(mqtt_client, 600, 600, canvas, pac))
     root.bind('<Left>', lambda event: drive_left(mqtt_client, 600, 600, canvas, pac))
-    root.bind('<space>', lambda event: stop(mqtt_client))
+    root.bind('<space>', lambda event: stop(mqtt_client, pac))
     root.bind('<Right>', lambda event: drive_right(mqtt_client, 600, 600, canvas, pac))
     root.bind('<Down>', lambda event: drive_backward(mqtt_client, 600, 600, canvas, pac))
     root.bind('<q>', lambda event: quit_program(mqtt_client, True))
+
+    # mqtt_client.send_message('run_pac_man',[pac])
 
     root.mainloop()
 
@@ -112,8 +114,9 @@ def drive_right(mqtt_client, right_speed, left_speed, canvas, pac):
     pac.sprite = canvas.create_image(pac.x, pac.y, image=pac.R)
 
 
-def stop(mqtt_client):
+def stop(mqtt_client, pac):
     mqtt_client.send_message('stop')
+    pac.direction = 'stop'
 
 
 # Quit button callbacks
@@ -125,7 +128,7 @@ def quit_program(mqtt_client, shutdown_ev3):
     exit()
 
 
-def yellow(button):
+def yellow(button,pac):
     state = button.instate(['selected'])
     print('Yellow', state)
 
@@ -142,6 +145,7 @@ class PacMan(object):
         image_u = Image.open("PacMan_U.gif")
         image_d = Image.open("PacMan_D.gif")
 
+        self.running = True
         self.R = ImageTk.PhotoImage(image_r)
         self.L = ImageTk.PhotoImage(image_l)
         self.U = ImageTk.PhotoImage(image_u)
