@@ -7,6 +7,7 @@
 import tkinter
 from tkinter import ttk
 from tkinter import *
+import time
 
 import mqtt_remote_method_calls as com
 from PIL import Image, ImageTk
@@ -26,18 +27,25 @@ def main():
     main_frame = ttk.Frame(root, padding=20)
     main_frame.grid()
 
-    image = Image.open("PacMan_R.gif")
-    photo = ImageTk.PhotoImage(image)
-    # label = Label(image=photo)
-    # label.image = photo  # keep a reference!
-    # label.grid()
+    image_R = Image.open("PacMan_R.gif")
+    image_L = Image.open("PacMan_L.gif")
+    image_U = Image.open("PacMan_U.gif")
+    image_D = Image.open("PacMan_D.gif")
+
+    pac_R = ImageTk.PhotoImage(image_R)
+    pac_L = ImageTk.PhotoImage(image_L)
+    pac_U = ImageTk.PhotoImage(image_U)
+    pac_D = ImageTk.PhotoImage(image_D)
+
     canvas = tkinter.Canvas(main_frame, background="lightgray", width=640, height=400)
     canvas.grid(columnspan=2)
-    canvas.create_image(x, y, image=photo)
+    F=canvas.create_image(x, y, image=pac_U)
+    time.sleep(2)
+
 
     y_button = ttk.Checkbutton(main_frame, text='Yellow')
     y_button.grid(column=0, row=1)
-    y_button['command'] = lambda: yellow(y_button)
+    y_button['command'] = lambda: yellow(y_button,canvas,F)
 
     button = ttk.Checkbutton(main_frame, text='Red')
     button.grid(column=1, row=1)
@@ -104,7 +112,7 @@ def quit_program(mqtt_client, shutdown_ev3):
     exit()
 
 
-def yellow(button):
+def yellow(button,):
     state = button.instate(['selected'])
     print('Yellow', state)
 
