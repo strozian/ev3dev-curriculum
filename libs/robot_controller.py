@@ -35,6 +35,7 @@ class Snatch3r(object):
         assert self.ir_sensor
         assert self.pixy
         self.running = True
+        self.pac_running = True
 
     def drive_inches(self, inches_target, speed_deg_per_second):
         distance_degrees = inches_target * 360 / 4
@@ -141,3 +142,11 @@ class Snatch3r(object):
                 if math.fabs(current_heading) > 10:
                     self.stop()
                     print('Heading too far off')
+
+    def pac_stop(self):
+        self.left_motor.stop(stop_action='brake')
+        self.right_motor.stop(stop_action="brake")
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
+        ev3.Sound.speak('Game Over').wait()
+        self.pac_running =False

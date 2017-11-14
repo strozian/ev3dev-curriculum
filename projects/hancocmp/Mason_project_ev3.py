@@ -14,9 +14,14 @@ def main():
     mqtt_client = com.MqttClient(robot)
     mqtt_client.connect_to_pc()
     while True:
-        robot.loop_forever()
-        robot.draw_pac
+        if robot.right_motor.is_running:
+            break
 
+    while robot.pac_running:
+        mqtt_client.send_message("draw")
+        color = robot.color_sensor.color
+        mqtt_client.send_message("check_color", [color])
+        time.sleep(0.5)
 
 
 main()
