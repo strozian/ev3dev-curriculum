@@ -18,10 +18,12 @@ def main():
     print('Use the arrow keys to move the robot, space to stop, and q to quit')
 
     root = tkinter.Tk()
-    root.title('Final Project')
+    root.title('Final Project: Robot Pac-Man')
 
     main_frame = ttk.Frame(root, padding=20)
     main_frame.grid()
+
+
 
     canvas = tkinter.Canvas(main_frame, background="lightgray", width=640, height=400)
     canvas.grid(columnspan=2)
@@ -31,6 +33,9 @@ def main():
 
     pac.mqtt_client.connect_to_ev3()
 
+    q_button = ttk.Button(main_frame, text="Quit")
+    q_button.grid(row=1,column=2)
+    q_button['command'] = (lambda: quit_program(pac.mqtt_client, True))
 
 # Robot drive commands:
     root.bind('<Up>', lambda event: drive_forward(pac.mqtt_client, 600, 600, pac))
@@ -124,7 +129,6 @@ def stop(mqtt_client, pac):
 # Quit button callbacks
 def quit_program(mqtt_client, shutdown_ev3):
     if shutdown_ev3:
-#        print("shutdown")
         mqtt_client.send_message("pac_stop")
     mqtt_client.close()
     exit()
@@ -166,7 +170,6 @@ def game_over(pac):
     print('Press ''q'' to exit')
     pac.mqtt_client.send_message("pac_stop")
     pac.mqtt_client.close()
-
 
 
 class PacMan(object):
@@ -220,49 +223,51 @@ class PacMan(object):
             score_s = 'Score: ' + str(self.score)
             self.label.destroy()
             self.label = ttk.Label(text=score_s)
-            self.label.grid()
+            self.label.grid(row=0, column=2)
 
     def check_color(self, color):
         print(color)
-        self.power_time += 0.5
-        self.wait_time += 0.5
+        if self.power:
+            self.power_time += 0.5
+        if self.power_time > 10:
+            self.power = False
+            self.power_time = 0
+
+        if self.score_wait:
+            self.wait_time += 0.5
         if self.wait_time > -1:
             self.wait_time = 0
             self.score_wait = False
 
 #        #White will represent normal pellets worth 10 points each
         if color == 6:
-            if self.score_wait == False:
+            if not self.score_wait:
                 self.score += 10
                 self.update_score()
                 self.score_wait = True
+
 #       #Blue will represent the power pellets worth 50 points and allows Pac Man(the robot)
         #  to eat the ghosts for a short time
+        #The robot read the blue squares I was using as 3 (Green) so I used the number 3 here
+        #instead of the 2 for blue
         if color == 2:
-            if self.score_wait == False:
+            if not self.score_wait:
                 self.score += 50
                 self.power = True
                 self.update_score()
                 self.score_wait = True
+                self.mqtt_client.send_message("beep")
 #       # Red will represent the ghosts. Hitting a ghost while powered
         # up gives 200 points, if a ghost is hit while not powered up, it results in a game over.
-        # if color == 2:
-        #     if self.score_wait == False:
-        #         if self.power:
-        #             self.score += 200
-        #         else:
-        #             self.game_over()
-        #         self.score_wait = True
         if color == 5:
-            if self.score_wait == False:
+            if not self.score_wait:
                 if self.power:
                     self.score += 200
+                    self.update_score()
                 else:
                     game_over(self)
                 self.score_wait = True
 
-        if self.power_time > 10:
-            self.power = False
-            self.power_time = 0
+
 
 main()

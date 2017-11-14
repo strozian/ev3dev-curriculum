@@ -11,6 +11,9 @@ import robot_controller as robo
 
 def main():
     robot = robo.Snatch3r()
+    btn = ev3.Button()
+    btn.on_backspace = lambda state: robot.pac_stop()
+
     mqtt_client = com.MqttClient(robot)
     mqtt_client.connect_to_pc()
     while True:
@@ -22,6 +25,7 @@ def main():
         color = robot.color_sensor.color
         mqtt_client.send_message("check_color", [color])
         time.sleep(0.5)
+        btn.process()
 
 
 main()
