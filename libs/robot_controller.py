@@ -141,32 +141,3 @@ class Snatch3r(object):
                 if math.fabs(current_heading) > 10:
                     self.stop()
                     print('Heading too far off')
-
-    def run_pac_man(self, pac, canvas):
-        self.running = False
-        while pac.running:
-            print('run')
-            time.sleep(0.01)
-            t = 0
-            if t == 0.1:
-                if pac.direction == 'right':
-                    print('right')
-                    pac.x += 5
-                    canvas.delete(pac.sprite)
-                    pac.sprite = canvas.create_image(pac.x, pac.y, image=pac.R)
-                if pac.direction == 'left':
-                    print('left')
-                    pac.x += -5
-                    canvas.delete(pac.sprite)
-                    pac.sprite = canvas.create_image(pac.x, pac.y, image=pac.L)
-                if pac.direction == 'up':
-                    print('up')
-                    pac.y += 5
-                    canvas.delete(pac.sprite)
-                    pac.sprite = canvas.create_image(pac.x, pac.y, image=pac.U)
-                if pac.direction == 'down':
-                    print('down')
-                    pac.y += -5
-                    canvas.delete(pac.sprite)
-                    pac.sprite = canvas.create_image(pac.x, pac.y, image=pac.D)
-            t += 0.01

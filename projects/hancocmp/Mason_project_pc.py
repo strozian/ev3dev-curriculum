@@ -17,9 +17,9 @@ def main():
     print('------------------------------------------------------------')
     print('Main')
     print('------------------------------------------------------------')
-    print('Use the arrow keys to move the robot, space to stop, and q to quit')
+    print('Press ''s'' to start. Use the arrow keys to move the robot, space to stop, and q to quit')
 
-    mqtt_client = com.MqttClient()
+    mqtt_client = com.MqttClient(PacMan)
     mqtt_client.connect_to_ev3()
 
     root = tkinter.Tk()
@@ -48,8 +48,6 @@ def main():
     root.bind('<Right>', lambda event: drive_right(mqtt_client, 600, 600, canvas, pac))
     root.bind('<Down>', lambda event: drive_backward(mqtt_client, 600, 600, canvas, pac))
     root.bind('<q>', lambda event: quit_program(mqtt_client, True))
-
-    mqtt_client.send_message('run_pac_man',[pac, canvas])
 
     root.mainloop()
 
@@ -138,6 +136,35 @@ def red(button):
     print('Red', state)
 
 
+# def run_pac_man(pac, canvas):
+#     while pac.running:
+#         print('run')
+#         time.sleep(0.01)
+#         t = 0
+#         if t == 0.1:
+#             if pac.direction == 'right':
+#                 print('right')
+#                 pac.x += 5
+#                 canvas.delete(pac.sprite)
+#                 pac.sprite = canvas.create_image(pac.x, pac.y, image=pac.R)
+#             if pac.direction == 'left':
+#                 print('left')
+#                 pac.x += -5
+#                 canvas.delete(pac.sprite)
+#                 pac.sprite = canvas.create_image(pac.x, pac.y, image=pac.L)
+#             if pac.direction == 'up':
+#                 print('up')
+#                 pac.y += 5
+#                 canvas.delete(pac.sprite)
+#                 pac.sprite = canvas.create_image(pac.x, pac.y, image=pac.U)
+#             if pac.direction == 'down':
+#                 print('down')
+#                 pac.y += -5
+#                 canvas.delete(pac.sprite)
+#                 pac.sprite = canvas.create_image(pac.x, pac.y, image=pac.D)
+#         t += 0.01
+
+
 class PacMan(object):
     def __init__(self):
         image_r = Image.open("PacMan_R.gif")
@@ -155,4 +182,30 @@ class PacMan(object):
         self.x = 320
         self.y = 200
 
+    def draw(self, canvas):
+        print('Draw')
+        time.sleep(0.01)
+        t = 0
+        if t == 0.1:
+            if self.direction == 'right':
+                print('right')
+                self.x += 5
+                canvas.delete(self.sprite)
+                self.sprite = canvas.create_image(self.x, self.y, image=self.R)
+            if self.direction == 'left':
+                print('left')
+                self.x += -5
+                canvas.delete(self.sprite)
+                self.sprite = canvas.create_image(self.x, self.y, image=self.L)
+            if self.direction == 'up':
+                print('up')
+                self.y += 5
+                canvas.delete(self.sprite)
+                self.sprite = canvas.create_image(self.x, self.y, image=self.U)
+            if self.direction == 'down':
+                print('down')
+                self.y += -5
+                canvas.delete(self.sprite)
+                self.sprite = canvas.create_image(self.x, self.y, image=self.D)
+        t += 0.01
 main()

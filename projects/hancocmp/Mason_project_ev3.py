@@ -13,7 +13,10 @@ def main():
     robot = robo.Snatch3r()
     mqtt_client = com.MqttClient(robot)
     mqtt_client.connect_to_pc()
-    robot.loop_forever()
+    while True:
+        robot.loop_forever()
+        robot.draw_pac
+
 
 
 main()
