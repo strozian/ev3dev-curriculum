@@ -34,7 +34,7 @@ def main():
 
     y_button = ttk.Checkbutton(main_frame, text='Yellow')
     y_button.grid(column=0, row=1)
-    y_button['command'] = lambda: yellow(y_button,pac)
+    y_button['command'] = lambda: yellow(y_button)
 
     button = ttk.Checkbutton(main_frame, text='Red')
     button.grid(column=1, row=1)
@@ -49,7 +49,7 @@ def main():
     root.bind('<Down>', lambda event: drive_backward(mqtt_client, 600, 600, canvas, pac))
     root.bind('<q>', lambda event: quit_program(mqtt_client, True))
 
-    # mqtt_client.send_message('run_pac_man',[pac])
+    mqtt_client.send_message('run_pac_man',[pac, canvas])
 
     root.mainloop()
 
@@ -128,7 +128,7 @@ def quit_program(mqtt_client, shutdown_ev3):
     exit()
 
 
-def yellow(button,pac):
+def yellow(button):
     state = button.instate(['selected'])
     print('Yellow', state)
 
