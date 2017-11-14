@@ -32,7 +32,6 @@ def main():
     pac.mqtt_client.connect_to_ev3()
 
 
-
 # Robot drive commands:
     root.bind('<Up>', lambda event: drive_forward(pac.mqtt_client, 600, 600, pac))
     root.bind('<Left>', lambda event: drive_left(pac.mqtt_client, 600, 600, pac))
@@ -125,7 +124,7 @@ def stop(mqtt_client, pac):
 # Quit button callbacks
 def quit_program(mqtt_client, shutdown_ev3):
     if shutdown_ev3:
-        print("shutdown")
+#        print("shutdown")
         mqtt_client.send_message("pac_stop")
     mqtt_client.close()
     exit()
@@ -160,14 +159,13 @@ def quit_program(mqtt_client, shutdown_ev3):
 
 
 def game_over(pac):
-    pac.playing = False
     pac.canvas.delete(pac.sprite)
     pac.canvas.create_image(320, 200, image=pac.end)
     print('GAME OVER. YOUR FINAL SCORE IS: ', end='')
     print(pac.score)
+    print('Press ''q'' to exit')
     pac.mqtt_client.send_message("pac_stop")
     pac.mqtt_client.close()
-    exit()
 
 
 
@@ -201,25 +199,26 @@ class PacMan(object):
 
     def draw(self):
         if self.direction == 'right':
-            self.x += 5
+            self.x += 8
             self.canvas.delete(self.sprite)
             self.sprite = self.canvas.create_image(self.x, self.y, image=self.R)
         if self.direction == 'left':
-            self.x += -5
+            self.x += -8
             self.canvas.delete(self.sprite)
             self.sprite = self.canvas.create_image(self.x, self.y, image=self.L)
         if self.direction == 'up':
-            self.y += -5
+            self.y += -8
             self.canvas.delete(self.sprite)
             self.sprite = self.canvas.create_image(self.x, self.y, image=self.U)
         if self.direction == 'down':
-            self.y += 5
+            self.y += 8
             self.canvas.delete(self.sprite)
             self.sprite = self.canvas.create_image(self.x, self.y, image=self.D)
 
     def update_score(self):
         if self.playing:
             score_s = 'Score: ' + str(self.score)
+            self.label.destroy()
             self.label = ttk.Label(text=score_s)
             self.label.grid()
 
