@@ -17,27 +17,29 @@ def main():
     print('------------------------------------------------------------')
     print('Use the arrow keys to move the robot, space to stop, and q to quit')
 
+
+# Creates a tkinter GUI
     root = tkinter.Tk()
     root.title('Final Project: Robot Pac-Man')
 
     main_frame = ttk.Frame(root, padding=20)
     main_frame.grid()
 
-
-
     canvas = tkinter.Canvas(main_frame, background="lightgray", width=640, height=400)
     canvas.grid(columnspan=2)
+
+# Creates a Pac Man object using the tkinter canvas
     pac = PacMan(canvas)
     pac.sprite = pac.canvas.create_image(pac.x, pac.y, image=pac.U)
     pac.update_score()
-
     pac.mqtt_client.connect_to_ev3()
 
+# Adds quit button to GUI
     q_button = ttk.Button(main_frame, text="Quit")
     q_button.grid(row=1,column=2)
     q_button['command'] = (lambda: quit_program(pac.mqtt_client, True))
 
-# Robot drive commands:
+# Robot drive commands and quit command:
     root.bind('<Up>', lambda event: drive_forward(pac.mqtt_client, 600, 600, pac))
     root.bind('<Left>', lambda event: drive_left(pac.mqtt_client, 600, 600, pac))
     root.bind('<space>', lambda event: stop(pac.mqtt_client, pac))
@@ -48,6 +50,7 @@ def main():
     root.mainloop()
 
 
+# Drive commands that rotate the robot to the appropritate direction and drives forward
 def drive_forward(mqtt_client, right_speed, left_speed, pac):
     if pac.direction == 'right':
         mqtt_client.send_message('turn_degrees', [90, 600])
@@ -133,35 +136,8 @@ def quit_program(mqtt_client, shutdown_ev3):
     mqtt_client.close()
     exit()
 
-# def run_pac_man(pac, canvas):
-#     while pac.running:
-#         print('run')
-#         time.sleep(0.01)
-#         t = 0
-#         if t == 0.1:
-#             if pac.direction == 'right':
-#                 print('right')
-#                 pac.x += 5
-#                 canvas.delete(pac.sprite)
-#                 pac.sprite = canvas.create_image(pac.x, pac.y, image=pac.R)
-#             if pac.direction == 'left':
-#                 print('left')
-#                 pac.x += -5
-#                 canvas.delete(pac.sprite)
-#                 pac.sprite = canvas.create_image(pac.x, pac.y, image=pac.L)
-#             if pac.direction == 'up':
-#                 print('up')
-#                 pac.y += 5
-#                 canvas.delete(pac.sprite)
-#                 pac.sprite = canvas.create_image(pac.x, pac.y, image=pac.U)
-#             if pac.direction == 'down':
-#                 print('down')
-#                 pac.y += -5
-#                 canvas.delete(pac.sprite)
-#                 pac.sprite = canvas.create_image(pac.x, pac.y, image=pac.D)
-#         t += 0.01
 
-
+# Game over function that puts game over image on canvas and shuts down the program on the robot
 def game_over(pac):
     pac.canvas.delete(pac.sprite)
     pac.canvas.create_image(320, 200, image=pac.end)
@@ -192,7 +168,7 @@ class PacMan(object):
         self.y = 200
         self.canvas = canvas
         self.power = False
-        self.score_wait = False
+        self.score_wait = False  # used to put a pause between score updates
         self.playing = True
         self.power_time = 0
         self.wait_time = 0
@@ -200,6 +176,7 @@ class PacMan(object):
         self.label = ttk.Label(text='')
         self.mqtt_client = com.MqttClient(self)
 
+# Draw method updates the canvas and draws the new pac man sprite
     def draw(self):
         if self.direction == 'right':
             self.x += 8
@@ -218,6 +195,7 @@ class PacMan(object):
             self.canvas.delete(self.sprite)
             self.sprite = self.canvas.create_image(self.x, self.y, image=self.D)
 
+# update_score method updates the label on the Tkinter GUI with the new score
     def update_score(self):
         if self.playing:
             score_s = 'Score: ' + str(self.score)
@@ -225,6 +203,8 @@ class PacMan(object):
             self.label = ttk.Label(text=score_s)
             self.label.grid(row=0, column=2)
 
+# check_color method recieves a color from the robot and performs the appropriate
+# actions for that color
     def check_color(self, color):
         print(color)
         if self.power:
@@ -247,9 +227,7 @@ class PacMan(object):
                 self.score_wait = True
 
 #       #Blue will represent the power pellets worth 50 points and allows Pac Man(the robot)
-        #  to eat the ghosts for a short time
-        #The robot read the blue squares I was using as 3 (Green) so I used the number 3 here
-        #instead of the 2 for blue
+        #  to eat the ghosts for a short time(10 seconds)
         if color == 2:
             if not self.score_wait:
                 self.score += 50
@@ -267,7 +245,5 @@ class PacMan(object):
                 else:
                     game_over(self)
                 self.score_wait = True
-
-
 
 main()
