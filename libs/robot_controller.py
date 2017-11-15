@@ -141,6 +141,7 @@ class Snatch3r(object):
                 if math.fabs(current_heading) > 10:
                     self.stop()
                     print('Heading too far off')
+
     def pac_stop(self):
         self.left_motor.stop(stop_action='brake')
         self.right_motor.stop(stop_action="brake")
