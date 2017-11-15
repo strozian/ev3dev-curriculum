@@ -141,3 +141,13 @@ class Snatch3r(object):
                 if math.fabs(current_heading) > 10:
                     self.stop()
                     print('Heading too far off')
+    def pac_stop(self):
+        self.left_motor.stop(stop_action='brake')
+        self.right_motor.stop(stop_action="brake")
+        ev3.Leds.set_color(ev3.Leds.LEFT, ev3.Leds.GREEN)
+        ev3.Leds.set_color(ev3.Leds.RIGHT, ev3.Leds.GREEN)
+        ev3.Sound.speak('Game Over').wait()
+        self.pac_running = False
+
+    def beep(self):
+        ev3.Sound.beep().wait()
