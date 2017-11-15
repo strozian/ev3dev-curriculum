@@ -2,6 +2,7 @@ import tkinter
 from tkinter import ttk
 
 import mqtt_remote_method_calls as com
+import time
 
 
 def main():
@@ -93,6 +94,22 @@ def main():
     collision3_column_entry.insert(0, "0")
     collision3_column_entry.grid(row=7, column=4)
 
+    enter_button = ttk.Button(main_frame, text='Enter')
+    enter_button.grid(row=8, column=2)
+    # enter_button['command'] = lambda: main_frame.grid_remove()
+    enter_button['command'] = lambda: waiting(main_frame, mqtt_client, int(starting_row_entry.get()),
+                                              int(starting_column_entry.get()), int(end_row_entry.get()),
+                                              int(end_column_entry.get()))
+    print('check')
+
     root.mainloop()
+
+
+def waiting(main_frame, mqtt_client, starting_row, starting_column, goal_row, goal_column):
+    main_frame.grid_remove()
+    mqtt_client.send_message('drive_on_line', [])
+    print('check2')
+
+print('check3')
 
 main()
