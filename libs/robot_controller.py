@@ -93,6 +93,10 @@ class Snatch3r(object):
         self.right_motor.run_forever(speed_sp=-right_speed_entry)
         self.left_motor.run_forever(speed_sp=left_speed_entry)
 
+    def check_ir(self):
+        if self.ir_sensor.proximity < 10:
+            self.shutdown()
+
     def stop(self):
         self.left_motor.stop(stop_action='brake')
         self.right_motor.stop(stop_action='brake')

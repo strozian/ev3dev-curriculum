@@ -1,5 +1,5 @@
 import mqtt_remote_method_calls as com
-import robot_controller1 as robo
+import robot_controller as robo
 
 
 def main():
@@ -7,3 +7,5 @@ def main():
     mqtt_client = com.MqttClient(robot)
     mqtt_client.connect_to_pc()
     robot.loop_forever()
+
+main()
